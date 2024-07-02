@@ -23,11 +23,13 @@ const gameBoard = (function (){
     }
 
     const showBoard = () => {
-        for(let i = 0; i < 3; i++){            
+        for(let i = 0; i < 3; i++){   
+            let row = [];         
             for(let j = 0; j < 3; j++){
-                
-                console.log(array[i][j].getValue());        
+                row.push(array[i][j].getValue());       
             }
+            console.log(row.join());
+            console.log('');
         }
 
     };
