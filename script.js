@@ -1,52 +1,40 @@
 
-
-const cell = function(){
-    let value = 0;
-
-    const changeValue = (playerValue) =>{
-        if(value ==='X'||'O'){
-            value = value;
-        }
-        else{
-            value = playerValue;
-        };
-    };
-
-    const getValue = () => value;
-
-    return {value,changeValue,getValue};
-
+function createPlayer(name,symbol){
+    return(name,symbol);
 };
 
+function createSquare(){
+    let value = 0;
 
+    const getValue = () => value;
+    const changeValue = (symbol) => value = symbol;
 
-const gameboard = (function(){
-    let board = []
+    return {getValue,changeValue};
+}
+
+const gameBoard = (function (){
+    let array = []
+
     for(let i = 0; i < 3; i++){
-        board[i]=[];
+        array.push([])
         for(let j = 0; j < 3; j++){
-            board[i].push(cell());
-        };
+            array[i].push(createSquare());
+        }
+    }
+
+    const showBoard = () => {
+        for(let i = 0; i < 3; i++){            
+            for(let j = 0; j < 3; j++){
+                
+                console.log(array[i][j].getValue());        
+            }
+        }
+
     };
-    return board;
+
+    return {showBoard};
+
 })();
 
 
-const player = function(name,symbol){
-    return {name,symbol}
-};
-
-const gamePlay = function(){
-    let player1 = player('player 1','X');
-    let player2 = player('player 2','O');
-
-
-}
-
-
-console.log(gameboard);
-
-
-
-
-
+console.log(gameBoard.showBoard());
