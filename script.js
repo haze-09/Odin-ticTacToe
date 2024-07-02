@@ -1,30 +1,50 @@
-//factory
 
-const dude = function(name,coolFactor){
-    const discordId = '@' + name;
-    return {discordId,coolFactor};
-}
 
-const wordEngine = (function(){
-    const array = (word) => [...word];
+const cell = function(){
+    let value = 0;
 
-    const and = (word) => word + ' and ';
+    const changeValue = (playerValue) =>{
+        if(value ==='X'||'O'){
+            value = value;
+        }
+        else{
+            value = playerValue;
+        };
+    };
 
-    const insert = (word,position,word2) => {
-        const before = word.slice(0,position);
-        const after = word.slice(position);
-        const result = before + word2 + after;
-        return result;
-    }
+    const getValue = () => value;
 
-    return {array,and,insert};
+    return {value,changeValue,getValue};
+
+};
+
+
+
+const gameboard = (function(){
+    let board = []
+    for(let i = 0; i < 3; i++){
+        board[i]=[];
+        for(let j = 0; j < 3; j++){
+            board[i].push(cell());
+        };
+    };
+    return board;
 })();
 
-let person1 = dude('kevin','cool');
 
-console.log(wordEngine.array('pizza'));
-console.log(wordEngine.and('pizza'));
-console.log(wordEngine.insert('pizza',3,'gay'));
+const player = function(name,symbol){
+    return {name,symbol}
+};
+
+const gamePlay = function(){
+    let player1 = player('player 1','X');
+    let player2 = player('player 2','O');
+
+
+}
+
+
+console.log(gameboard);
 
 
 
