@@ -35,15 +35,95 @@ const gameBoard = (function (){
     };
 
     const changeBoard = (i,j,symbol) => {
-        array[i][j].changeValue(symbol);
+        if(array[i][j].getValue() === 0){
+            array[i][j].changeValue(symbol);
+        };     
     };
 
+    const getBoard = () => array;
 
-    return {showBoard,changeBoard};
+
+    return {showBoard,changeBoard,getBoard};
+
+})();
+
+const roundPlayer = (function(){    
+    
+    const playRound = (player1Symbol,player2Symbol) => {
+        const x = prompt("Player 1, enter the x-coordinate:");
+        const y = prompt("Player 1, enter the y-coordinate:");
+        const i = prompt("Player 2, enter the x-coordinate:");
+        const j = prompt("Player 2, enter the y-coordinate:");
+
+        gameBoard.changeBoard(x, y, player1Symbol);
+
+        gameBoard.showBoard();
+
+        gameBoard.changeBoard(i, j, player2Symbol);
+
+        gameBoard.showBoard();
+
+        
+    }
+
+    return {playRound};
+})();
+
+
+const gameLogic = (function(){
+
+    function rowCheck(array){
+        return  array.every(square => square.getValue() !==0 && square.getValue() === array[0].getValue());
+    }
+
+    function diagonal(x,y,z) {
+        if(x===y===z){
+            return true;
+        }        
+    }
+
+    const winCheck = () => {
+        let array = gameBoard.getBoard();
+
+        if(array.every(rowCheck())){
+            return true;
+        }
+        else if(diagonal(array[0][0].getValue(), array[1][1].getValue(), array[2][2].getValue() )){
+            return true;
+        }
+        else if(diagonal(array[0][2].getValue(), array[1][1].getValue(), array[2][0].getValue() )){
+            return true;
+        }
+        else{
+            return false;
+        }      
+
+    };
+
+    return {winCheck}
 
 })();
 
 
-gameBoard.changeBoard(0,1,'x');
+const game = (function() {
+    let player1 = createPlayer('Player 1','x');
+    let player2 = createPlayer('Player 2','o');
+    let win = false;
 
-console.log(gameBoard.showBoard());
+    const play = () => {
+        while(win===false){
+            roundPlayer.playRound(player1.symbol,player2.symbol);
+            if(gameLogic.winCheck()){
+                win = true;
+            }
+        }
+        console.log('somebody won');
+
+    }
+
+    return {play} 
+
+})();
+
+game.play();
+
