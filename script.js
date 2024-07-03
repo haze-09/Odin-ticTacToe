@@ -1,6 +1,6 @@
 
 function createPlayer(name,symbol){
-    return(name,symbol);
+    return{name,symbol};
 };
 
 function createSquare(){
@@ -19,8 +19,8 @@ const gameBoard = (function (){
         array.push([])
         for(let j = 0; j < 3; j++){
             array[i].push(createSquare());
-        }
-    }
+        };
+    };
 
     const showBoard = () => {
         for(let i = 0; i < 3; i++){   
@@ -34,9 +34,16 @@ const gameBoard = (function (){
 
     };
 
-    return {showBoard};
+    const changeBoard = (i,j,symbol) => {
+        array[i][j].changeValue(symbol);
+    };
+
+
+    return {showBoard,changeBoard};
 
 })();
 
+
+gameBoard.changeBoard(0,1,'x');
 
 console.log(gameBoard.showBoard());
