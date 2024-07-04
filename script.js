@@ -55,15 +55,19 @@ const gameLogic = (function(){
 
     function columnCheck(array) {
 
-        return (array[0][0].getValue() !== 0 && array[0][0].getValue() === array[1][0].getValue() === array[2][0].getValue()) ||
-        (array[0][0].getValue() !== 0 && array[0][1].getValue() === array[1][1].getValue() === array[2][1].getValue()) ||
-        (array[0][0].getValue() !== 0 && array[0][2].getValue() === array[1][2].getValue() === array[2][2].getValue());
+        for (let col = 0; col < 3; col++) {
+            if (array[0][col].getValue() !== 0 &&
+                array[0][col].getValue() === array[1][col].getValue() &&
+                array[1][col].getValue() === array[2][col].getValue()) {
+                return true;
+            }
+        }
         
     };
 
     function diagonal(array) {
-        return  (array[0][0].getValue() !== 0 && array[0][0].getValue() === array[1][1].getValue() === array[2][2].getValue()) ||
-            (array[0][2].getValue() !== 0 && array[0][2].getValue() === array[1][1].getValue() === array[2][0].getValue());
+        return  (array[0][0].getValue() !== 0 && array[0][0].getValue() === array[1][1].getValue() && array[1][1].getValue() === array[2][2].getValue()) ||
+            (array[0][2].getValue() !== 0 && array[0][2].getValue() === array[1][1].getValue() && array[1][1].getValue() === array[2][0].getValue());
     };
 
     const winCheck = () => {
@@ -81,7 +85,9 @@ const gameLogic = (function(){
 })();
 
 const roundPlayer = (function(){    
-    
+
+    let moves = 0;
+
     const playRound = (player1Symbol,player2Symbol) => {
 
         const x = prompt("Player 1, enter the x-coordinate:");
@@ -89,9 +95,14 @@ const roundPlayer = (function(){
         
         gameBoard.changeBoard(x, y, player1Symbol);
         gameBoard.showBoard();
+        moves++;
         if(gameLogic.winCheck()){
             return player1Symbol;
         }
+        else if(moves === 9){
+            return moves;
+        }
+        
 
 
         const i = prompt("Player 2, enter the x-coordinate:");
@@ -99,32 +110,36 @@ const roundPlayer = (function(){
 
         gameBoard.changeBoard(i, j, player2Symbol);
         gameBoard.showBoard();
+        moves++;
         if(gameLogic.winCheck()){
             return player2Symbol;
-        }
+        }      
+
 
         
     }
 
-    return {playRound};
+    const checkMoves = () => moves;
+
+    return {playRound,checkMoves};
 })();
 
 
 const game = (function() {
     let player1 = createPlayer('Player 1','x');
     let player2 = createPlayer('Player 2','o');
-    let win = false;
-    let moves = 0;
+    let gameEnd = false;
 
     const play = () => {
-        while (win === false && moves !== 9) {
-            let winner = roundPlayer.playRound(player1.symbol,player2.symbol);
-            moves++;
-            if(winner === player1.symbol || winner === player2.symbol){
-                win = true;
-                console.log(winner + ' won');
+        while (gameEnd === false) {
+            let result = roundPlayer.playRound(player1.symbol,player2.symbol);
+            console.log(roundPlayer.checkMoves());
+            if(result === player1.symbol || result === player2.symbol){
+                gameEnd = true;
+                console.log(result + ' won');
             }
-            if(moves === 9){
+            else if(result === 9){
+                gameEnd = true;
                 console.log('draw');
             }
 
@@ -134,6 +149,7 @@ const game = (function() {
     return {play} 
 
 })();
+
 
 game.play();
 
