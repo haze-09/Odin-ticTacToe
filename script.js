@@ -47,6 +47,39 @@ const gameBoard = (function (){
 
 })();
 
+const gameLogic = (function(){
+
+    function rowCheck(array){
+        return  array.every(square => square.getValue() !== 0 && square.getValue() === array[0].getValue());
+    };
+
+    function columnCheck(array) {
+
+        return (array[0][0].getValue() !== 0 && array[0][0].getValue() === array[1][0].getValue() === array[2][0].getValue()) ||
+        (array[0][0].getValue() !== 0 && array[0][1].getValue() === array[1][1].getValue() === array[2][1].getValue()) ||
+        (array[0][0].getValue() !== 0 && array[0][2].getValue() === array[1][2].getValue() === array[2][2].getValue());
+        
+    };
+
+    function diagonal(array) {
+        return  (array[0][0].getValue() !== 0 && array[0][0].getValue() === array[1][1].getValue() === array[2][2].getValue()) ||
+            (array[0][2].getValue() !== 0 && array[0][2].getValue() === array[1][1].getValue() === array[2][0].getValue());
+    };
+
+    const winCheck = () => {
+        let array = gameBoard.getBoard();
+
+        const rowWin = array.some(rowCheck);
+        const columnWin = columnCheck(array);
+        const diagonalWin = diagonal(array);
+
+        return rowWin || columnWin || diagonalWin;
+    };
+
+    return {winCheck};
+
+})();
+
 const roundPlayer = (function(){    
     
     const playRound = (player1Symbol,player2Symbol) => {
@@ -67,41 +100,6 @@ const roundPlayer = (function(){
     }
 
     return {playRound};
-})();
-
-
-const gameLogic = (function(){
-
-    function rowCheck(array){
-        return  array.every(square => square.getValue() !==0 && square.getValue() === array[0].getValue());
-    }
-
-    function diagonal(x,y,z) {
-        if(x===y===z){
-            return true;
-        }        
-    }
-
-    const winCheck = () => {
-        let array = gameBoard.getBoard();
-
-        if(array.every(rowCheck())){
-            return true;
-        }
-        else if(diagonal(array[0][0].getValue(), array[1][1].getValue(), array[2][2].getValue() )){
-            return true;
-        }
-        else if(diagonal(array[0][2].getValue(), array[1][1].getValue(), array[2][0].getValue() )){
-            return true;
-        }
-        else{
-            return false;
-        }      
-
-    };
-
-    return {winCheck}
-
 })();
 
 
