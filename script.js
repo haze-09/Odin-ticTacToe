@@ -42,8 +42,10 @@ const gameBoard = (function (){
 
     const getBoard = () => array;
 
+    const getSquareValue = (i,j) => array[i][j].getValue();
 
-    return {showBoard,changeBoard,getBoard};
+
+    return {showBoard,changeBoard,getBoard,getSquareValue};
 
 })();
 
