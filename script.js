@@ -83,18 +83,25 @@ const gameLogic = (function(){
 const roundPlayer = (function(){    
     
     const playRound = (player1Symbol,player2Symbol) => {
+
         const x = prompt("Player 1, enter the x-coordinate:");
         const y = prompt("Player 1, enter the y-coordinate:");
+        
+        gameBoard.changeBoard(x, y, player1Symbol);
+        gameBoard.showBoard();
+        if(gameLogic.winCheck()){
+            return player1Symbol;
+        }
+
+
         const i = prompt("Player 2, enter the x-coordinate:");
         const j = prompt("Player 2, enter the y-coordinate:");
 
-        gameBoard.changeBoard(x, y, player1Symbol);
-
-        gameBoard.showBoard();
-
         gameBoard.changeBoard(i, j, player2Symbol);
-
         gameBoard.showBoard();
+        if(gameLogic.winCheck()){
+            return player2Symbol;
+        }
 
         
     }
@@ -107,16 +114,21 @@ const game = (function() {
     let player1 = createPlayer('Player 1','x');
     let player2 = createPlayer('Player 2','o');
     let win = false;
+    let moves = 0;
 
     const play = () => {
-        while(win===false){
-            roundPlayer.playRound(player1.symbol,player2.symbol);
-            if(gameLogic.winCheck()){
+        while (win === false && moves !== 9) {
+            let winner = roundPlayer.playRound(player1.symbol,player2.symbol);
+            moves++;
+            if(winner === player1.symbol || winner === player2.symbol){
                 win = true;
+                console.log(winner + ' won');
             }
-        }
-        console.log('somebody won');
+            if(moves === 9){
+                console.log('draw');
+            }
 
+        }         
     }
 
     return {play} 
