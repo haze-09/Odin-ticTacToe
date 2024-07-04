@@ -92,10 +92,22 @@ const roundPlayer = (function(){
 
     const playRound = (player1Symbol,player2Symbol) => {
 
-        const x = prompt("Player 1, enter the x-coordinate:");
-        const y = prompt("Player 1, enter the y-coordinate:");
-        
-        gameBoard.changeBoard(x, y, player1Symbol);
+        // for Player 1
+
+        let validMove = false;        
+
+        while (validMove === false) {
+            let x = prompt("Player 1, enter the x-coordinate:");
+            let y = prompt("Player 1, enter the y-coordinate:");
+
+            if (gameBoard.getSquareValue(x,y) === 0) {
+                gameBoard.changeBoard(x, y, player1Symbol);
+                validMove = true;            
+            }
+            else {
+                alert("Square already filled. Try again.");
+            }                    
+        }
         gameBoard.showBoard();
         moves++;
         if(gameLogic.winCheck()){
@@ -104,23 +116,29 @@ const roundPlayer = (function(){
         else if(moves === 9){
             return moves;
         }
-        
 
 
-        const i = prompt("Player 2, enter the x-coordinate:");
-        const j = prompt("Player 2, enter the y-coordinate:");
+        // for Player 2
 
-        gameBoard.changeBoard(i, j, player2Symbol);
+        validMove = false;
+        while (validMove === false) {
+            let i = prompt("Player 2, enter the x-coordinate:");
+            let j = prompt("Player 2, enter the y-coordinate:");
+            
+            if (gameBoard.getSquareValue(i,j) === 0) {
+                gameBoard.changeBoard(i, j, player2Symbol);
+                validMove = true;            
+            }
+            else {
+                alert("Square already filled. Try again.");
+            } 
+        }      
         gameBoard.showBoard();
         moves++;
         if(gameLogic.winCheck()){
             return player2Symbol;
         }      
-
-
-        
     }
-
     const checkMoves = () => moves;
 
     return {playRound,checkMoves};
@@ -138,7 +156,7 @@ const game = (function() {
             console.log(roundPlayer.checkMoves());
             if(result === player1.symbol || result === player2.symbol){
                 gameEnd = true;
-                console.log(result + ' won');
+                console.log(result + ' has won');
             }
             else if(result === 9){
                 gameEnd = true;
