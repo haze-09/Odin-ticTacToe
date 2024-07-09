@@ -1,0 +1,12 @@
+#gameBoard{
+    height: 60vh;
+    width: 60vh;
+    background-color: black;
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    grid-template-rows: repeat(3,1fr);
+}
+.cell{
+    background-color: rgb(118, 118, 118);
+    border: 1px solid;
+}

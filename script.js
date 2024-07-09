@@ -170,6 +170,40 @@ const game = (function() {
 
 })();
 
+const display =(function(){
+    let array = gameBoard.getBoard();
+    let body = document.querySelector('body');
+    let gameBoardDiv = document.createElement('div');
 
-game.play();
+    const createBoard = ()=>{
+        body.appendChild(gameBoardDiv);
+        gameBoardDiv.id= 'gameBoard';
+        console.log(array);
+
+        for(subArray of array){
+            for(subsubArray of subArray){
+                let cellDiv = document.createElement('div');
+                cellDiv.classList.add('cell');
+                cellDiv.addEventListener('click',(event)=> console.log('click'))
+                gameBoardDiv.appendChild(cellDiv);
+                
+                // cellDiv.addEventListener('click');
+                // cellDiv.textContent = subsubArray.getValue();    
+            }
+        }
+
+    }
+    
+    return {createBoard};  
+
+    
+    
+
+})();
+
+display.createBoard();
+
+
+
+// game.play();
 
