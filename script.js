@@ -90,54 +90,66 @@ const roundPlayer = (function(){
 
     let moves = 0;
 
-    const playRound = (player1Symbol,player2Symbol) => {
+    const playRound = (i,j) => {
+
+        let status = document.querySelector('#status')
 
         // for Player 1
 
         let validMove = false;        
 
-        while (validMove === false) {
-            let x = prompt("Player 1, enter the x-coordinate:");
-            let y = prompt("Player 1, enter the y-coordinate:");
+        // while (validMove === false) {
 
-            if (gameBoard.getSquareValue(x,y) === 0) {
-                gameBoard.changeBoard(x, y, player1Symbol);
-                validMove = true;            
+            if (gameBoard.getSquareValue(i,j) === 0) {
+
+                if(moves === 0 || moves % 2===0){
+                    gameBoard.changeBoard(i, j, 'x');
+                }
+                else{
+                    gameBoard.changeBoard(i, j, 'o');
+                }
+                moves++;                
+                display.updateBoard();
+                status.textContent='click on the board to play';
+
+                
+                // validMove = true;            
             }
             else {
-                alert("Square already filled. Try again.");
+                console.log('square fillled');
+                status.textContent='square filled already try again';
             }                    
-        }
+        // }
         gameBoard.showBoard();
-        moves++;
-        if(gameLogic.winCheck()){
-            return player1Symbol;
-        }
-        else if(moves === 9){
-            return moves;
-        }
+        
+        // if(gameLogic.winCheck()){
+        //     return player1Symbol;
+        // }
+        // else if(moves === 9){
+        //     return moves;
+        // }
 
 
         // for Player 2
 
-        validMove = false;
-        while (validMove === false) {
-            let i = prompt("Player 2, enter the x-coordinate:");
-            let j = prompt("Player 2, enter the y-coordinate:");
+        // validMove = false;
+        // while (validMove === false) {
+        //     let i = prompt("Player 2, enter the x-coordinate:");
+        //     let j = prompt("Player 2, enter the y-coordinate:");
             
-            if (gameBoard.getSquareValue(i,j) === 0) {
-                gameBoard.changeBoard(i, j, player2Symbol);
-                validMove = true;            
-            }
-            else {
-                alert("Square already filled. Try again.");
-            } 
-        }      
-        gameBoard.showBoard();
-        moves++;
-        if(gameLogic.winCheck()){
-            return player2Symbol;
-        }      
+        //     if (gameBoard.getSquareValue(i,j) === 0) {
+        //         gameBoard.changeBoard(i, j, player2Symbol);
+        //         validMove = true;            
+        //     }
+        //     else {
+        //         alert("Square already filled. Try again.");
+        //     } 
+        // }      
+        // gameBoard.showBoard();
+        // moves++;
+        // if(gameLogic.winCheck()){
+        //     return player2Symbol;
+        // }      
     }
     const checkMoves = () => moves;
 
@@ -175,26 +187,54 @@ const display =(function(){
     let body = document.querySelector('body');
     let gameBoardDiv = document.createElement('div');
 
+
+
     const createBoard = ()=>{
         body.appendChild(gameBoardDiv);
         gameBoardDiv.id= 'gameBoard';
         console.log(array);
 
-        for(subArray of array){
-            for(subsubArray of subArray){
+        for(let i=0;i<array.length;i++){
+            for(let j=0;j<array[i].length;j++){
                 let cellDiv = document.createElement('div');
                 cellDiv.classList.add('cell');
-                cellDiv.addEventListener('click',(event)=> console.log('click'))
-                gameBoardDiv.appendChild(cellDiv);
-                
-                // cellDiv.addEventListener('click');
-                // cellDiv.textContent = subsubArray.getValue();    
+                cellDiv.addEventListener('click',() =>roundPlayer.playRound(i,j));
+
+                if(array[i][j].getValue()===0){
+                    gameBoardDiv.appendChild(cellDiv);
+                }
+                else{
+                    cellDiv.textContent = array[i][j].getValue();
+                    gameBoardDiv.appendChild(cellDiv);
+                }                    
             }
         }
 
     }
+    const updateBoard = ()=>{
+        let cells = document.querySelectorAll('.cell');
+        // console.log(cells);
+        cells.forEach((cell, index)=>{
+            let i = Math.floor(index / 3);
+            let j = index % 3;
+
+            if(array[i][j].getValue()===0){
+                cell.textContent = '';
+            }
+            else{
+                cell.textContent = array[i][j].getValue();
+            } 
+
+
+            
+        })
+
+
+        // cellDiv.textContent = subsubArray.getValue(i,j);
+
+    }
     
-    return {createBoard};  
+    return {createBoard,updateBoard};  
 
     
     
