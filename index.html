@@ -5,10 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>  
 </head>
 <body>
     <p>Tic Tac Toe</p>
-    <script src="script.js"></script> 
-    <p id="status">click on the board to play</p>   
+      
+    <p id="status">click on the board to play</p>
+    <form>
+        <div>
+            <label for="player1">Player X Name:</label>
+            <input type="text" id="player1" name="player1">
+        </div>
+        <div>
+            <label for="player2">Player O Name:</label>
+            <input type="text" id="player2" name="player2">
+        </div>
+        <button type="submit">submit</button>
+    </form>
 </body>
 </html>

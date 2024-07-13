@@ -86,19 +86,19 @@ const gameLogic = (function(){
 
 })();
 
+const playerNames = {
+    
+}
+
 const roundPlayer = (function(){    
 
     let moves = 0;
 
     const playRound = (i,j) => {
+        let player1 = createPlayer('Player 1','x');
+        let player2 = createPlayer('Player 2','o');
 
         let status = document.querySelector('#status')
-
-        // for Player 1
-
-        let validMove = false;        
-
-        // while (validMove === false) {
 
             if (gameBoard.getSquareValue(i,j) === 0) {
 
@@ -110,77 +110,28 @@ const roundPlayer = (function(){
                 }
                 moves++;                
                 display.updateBoard();
-                status.textContent='click on the board to play';
-
-                
-                // validMove = true;            
+                if(gameLogic.winCheck()){
+                    status.textContent='someone won';
+                }
+                else if(moves === 9){
+                    status.textContent='hee hee tie';
+                }
+                else{
+                    status.textContent='click on the board to play';
+                }            
             }
             else {
                 console.log('square fillled');
                 status.textContent='square filled already try again';
             }                    
-        // }
-        gameBoard.showBoard();
-        
-        // if(gameLogic.winCheck()){
-        //     return player1Symbol;
-        // }
-        // else if(moves === 9){
-        //     return moves;
-        // }
-
-
-        // for Player 2
-
-        // validMove = false;
-        // while (validMove === false) {
-        //     let i = prompt("Player 2, enter the x-coordinate:");
-        //     let j = prompt("Player 2, enter the y-coordinate:");
-            
-        //     if (gameBoard.getSquareValue(i,j) === 0) {
-        //         gameBoard.changeBoard(i, j, player2Symbol);
-        //         validMove = true;            
-        //     }
-        //     else {
-        //         alert("Square already filled. Try again.");
-        //     } 
-        // }      
-        // gameBoard.showBoard();
-        // moves++;
-        // if(gameLogic.winCheck()){
-        //     return player2Symbol;
-        // }      
+            gameBoard.showBoard();    
     }
+
     const checkMoves = () => moves;
 
     return {playRound,checkMoves};
 })();
 
-
-const game = (function() {
-    let player1 = createPlayer('Player 1','x');
-    let player2 = createPlayer('Player 2','o');
-    let gameEnd = false;
-
-    const play = () => {
-        while (gameEnd === false) {
-            let result = roundPlayer.playRound(player1.symbol,player2.symbol);
-            console.log(roundPlayer.checkMoves());
-            if(result === player1.symbol || result === player2.symbol){
-                gameEnd = true;
-                console.log(result + ' has won');
-            }
-            else if(result === 9){
-                gameEnd = true;
-                console.log('draw');
-            }
-
-        }         
-    }
-
-    return {play} 
-
-})();
 
 const display =(function(){
     let array = gameBoard.getBoard();
@@ -213,7 +164,6 @@ const display =(function(){
     }
     const updateBoard = ()=>{
         let cells = document.querySelectorAll('.cell');
-        // console.log(cells);
         cells.forEach((cell, index)=>{
             let i = Math.floor(index / 3);
             let j = index % 3;
@@ -223,14 +173,8 @@ const display =(function(){
             }
             else{
                 cell.textContent = array[i][j].getValue();
-            } 
-
-
-            
+            }             
         })
-
-
-        // cellDiv.textContent = subsubArray.getValue(i,j);
 
     }
     
@@ -243,7 +187,4 @@ const display =(function(){
 
 display.createBoard();
 
-
-
-// game.play();
 
