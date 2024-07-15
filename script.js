@@ -86,10 +86,6 @@ const gameLogic = (function(){
 
 })();
 
-const playerNames = {
-    
-}
-
 const roundPlayer = (function(){    
 
     let moves = 0;
@@ -112,6 +108,7 @@ const roundPlayer = (function(){
                 display.updateBoard();
                 if(gameLogic.winCheck()){
                     status.textContent='someone won';
+                    display.removeListeners();
                 }
                 else if(moves === 9){
                     status.textContent='hee hee tie';
@@ -137,19 +134,25 @@ const display =(function(){
     let array = gameBoard.getBoard();
     let body = document.querySelector('body');
     let gameBoardDiv = document.createElement('div');
+    const handleCellClick = (i, j) => () => roundPlayer.playRound(i, j);
+    let handlers = [];
 
 
 
     const createBoard = ()=>{
         body.appendChild(gameBoardDiv);
         gameBoardDiv.id= 'gameBoard';
-        console.log(array);
+        console.log(array);        
 
         for(let i=0;i<array.length;i++){
             for(let j=0;j<array[i].length;j++){
                 let cellDiv = document.createElement('div');
                 cellDiv.classList.add('cell');
-                cellDiv.addEventListener('click',() =>roundPlayer.playRound(i,j));
+
+                const handler = handleCellClick(i, j);
+                cellDiv.addEventListener('click',handler);
+
+                handlers.push({ cellDiv, handler });
 
                 if(array[i][j].getValue()===0){
                     gameBoardDiv.appendChild(cellDiv);
@@ -177,10 +180,14 @@ const display =(function(){
         })
 
     }
-    
-    return {createBoard,updateBoard};  
 
-    
+    const removeListeners = ()=>{
+        handlers.forEach(({ cellDiv, handler }) => {
+            cellDiv.removeEventListener('click', handler);
+        });
+    }
+
+    return {createBoard,updateBoard,removeListeners};   
     
 
 })();
