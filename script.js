@@ -216,10 +216,14 @@ const game = (function(){
     let form = document.querySelector('form');
     let body = document.querySelector('body');
 
-    function resetActions() {
+    let status = document.createElement('p');
+    status.id = 'status';
+
+    function resetActions() {        
         gameBoard.resetBoard();
         roundPlayer.resetMoves();
         // display.removeListeners();
+        status.textContent='click on the board to play';
         display.addListeners();
         display.updateBoard();        
     }
@@ -237,8 +241,13 @@ const game = (function(){
             let player2 = createPlayer(formData.get('player2'),'o');
 
             display.createBoard(player1,player2);
+
+            body.appendChild(status);
+            
             
             let reset = document.createElement('button');
+            status.textContent='click on the board to play';
+
             body.appendChild(reset);
             reset.textContent = 'reset';
             reset.id='reset';
