@@ -235,10 +235,14 @@ const game = (function(){
             e.preventDefault();
 
             const formData = new FormData(form);
-            form.remove();            
+            if(formData.entries().next().done){
+                alert('Enter names to proceed');
+            }
+            else{
+                form.remove();            
 
-            let player1 = createPlayer(formData.get('player1'),'x');
-            let player2 = createPlayer(formData.get('player2'),'o');
+            let player1 = createPlayer(formData.get('player1'),'×');
+            let player2 = createPlayer(formData.get('player2'),'O');
 
             display.createBoard(player1,player2);
 
@@ -252,6 +256,9 @@ const game = (function(){
             reset.textContent = 'reset';
             reset.id='reset';
             reset.addEventListener('click',resetActions)
+
+            }
+            
           
         })
 
