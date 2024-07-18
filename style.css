@@ -93,6 +93,7 @@ button{
     grid-template-columns: repeat(3,1fr);
     grid-template-rows: repeat(3,1fr);
     gap: 2.5px;
+    margin-bottom: 10px;
 }
 .cell{
     background-color: rgb(14, 14, 14);
@@ -101,4 +102,10 @@ button{
     align-items: center;
     font-size: 10vh;
     /* border: 1px solid; */
+}
+
+#reset{
+    margin-top: 2vh;
+    margin-bottom: 5px;
+
 }

@@ -222,11 +222,20 @@ const game = (function(){
     function resetActions() {        
         gameBoard.resetBoard();
         roundPlayer.resetMoves();
-        // display.removeListeners();
         status.textContent='click on the board to play';
         display.addListeners();
         display.updateBoard();        
     }
+
+    function checkEmpty(formData){
+        for(let value of formData.values()){
+            if(!value){
+                return true;
+            }
+        }
+        return false;
+    }
+
 
 
 
@@ -235,11 +244,8 @@ const game = (function(){
             e.preventDefault();
 
             const formData = new FormData(form);
-            if(formData.entries().next().done){
-                alert('Enter names to proceed');
-            }
-            else{
-                form.remove();            
+            
+            form.remove();            
 
             let player1 = createPlayer(formData.get('player1'),'×');
             let player2 = createPlayer(formData.get('player2'),'O');
@@ -257,7 +263,6 @@ const game = (function(){
             reset.id='reset';
             reset.addEventListener('click',resetActions)
 
-            }
             
           
         })
