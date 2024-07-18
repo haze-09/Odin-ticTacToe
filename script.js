@@ -122,7 +122,7 @@ const roundPlayer = (function(){
                     display.removeListeners();
                 }
                 else if(moves === 9){
-                    status.textContent='hee hee tie';
+                    status.textContent='Its a tie';
                     display.removeListeners();
                 }
                 else{
@@ -227,18 +227,6 @@ const game = (function(){
         display.updateBoard();        
     }
 
-    function checkEmpty(formData){
-        for(let value of formData.values()){
-            if(!value){
-                return true;
-            }
-        }
-        return false;
-    }
-
-
-
-
     const start = ()=>{
         form.addEventListener('submit',(e) =>{
             e.preventDefault();
@@ -261,21 +249,14 @@ const game = (function(){
             body.appendChild(reset);
             reset.textContent = 'reset';
             reset.id='reset';
-            reset.addEventListener('click',resetActions)
-
-            
+            reset.addEventListener('click',resetActions)            
           
         })
 
     }
-
-
     return {start}
 
 })();
 
 game.start();
-
-// display.createBoard();
-
 
